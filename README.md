@@ -4,6 +4,9 @@ Fully undetectable malware with a backend written in Rust
 ### Educational purposes only
 Only use this on your own machine and do not use it maliciously. 
 
+### License
+This project is licensed under the terms of the MIT license.
+
 ### How it works
 This is a malware written in Rust that steals the information the attacker chooses to steal and sends that through a server to the attacker's webhook.
 
