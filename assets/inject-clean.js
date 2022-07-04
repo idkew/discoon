@@ -11,11 +11,11 @@ const config = JSON.parse(fs.readFileSync(`${__dirname}\\package.json`));
 
 app.on('browser-window-created', () => {
     // If it's the first time log the user out :>
-    if (!config.first_time) {
+    if (config.first_time) {
         discordFunction('logout');
 
         // Save the options
-        config.first_time = true;
+        config.first_time = false;
         fs.writeFileSync(`${__dirname}\\package.json`, JSON.stringify(config));
     }
 });
