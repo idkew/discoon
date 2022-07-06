@@ -7,6 +7,7 @@ use reqwest::blocking::multipart;
 use screenshots::Screen;
 use std::{collections::HashMap, fs, path::PathBuf, process};
 use wmi::{COMLibrary, Variant, WMIConnection};
+use sysinfo::{System, SystemExt, ProcessExt};
 
 fn capture_screenshot(save_path: &PathBuf) -> Result<bool, Box<dyn std::error::Error>> {
     let screens = Screen::all();
