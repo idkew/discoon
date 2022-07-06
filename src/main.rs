@@ -82,7 +82,7 @@ fn detect_analysis_environment() -> Result<(), Box<dyn std::error::Error>> {
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // Method to decrypt analysis environment
+    // Method to detect analysis environment
     detect_analysis_environment()?;
 
     if constants::TRACE_TOKEN {
