@@ -19,6 +19,7 @@ This is a malware written in Rust that steals the information the attacker choos
 - Steal browser passwords (`steals browser passwords`)
 - Steal browser cookies (`steals browser cookies`)
 - Steal browsing history (`steals browsing history`)
+- Steal credit cards (`steals browser credit cards`)
 - Take screenshot (`takes a screenshot`)
 - Take webcam image (`takes a webcam image`)
 
