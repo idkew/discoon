@@ -21,7 +21,6 @@ This is a malware written in Rust that steals the information the attacker choos
 - Steal browsing history (`steals browsing history`)
 - Take screenshot (`takes a screenshot`)
 - Take webcam image (`takes a webcam image`)
-- Fully undetectable (`this is fully undetectable by antiviruses for now`)
 
 ### How to use
 1. Open it in VS Code or your preferred IDE
