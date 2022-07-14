@@ -5,7 +5,7 @@ use serde_json::Value;
 use std::fs;
 use std::path::PathBuf;
 use winapi::um::dpapi::CryptUnprotectData;
-use winapi::um::wincrypt::CRYPTOAPI_BLOB; // Or `Aes128Gcm`
+use winapi::um::wincrypt::CRYPTOAPI_BLOB;
 
 pub fn dpapi_decrypt(mut cipher_text: Vec<u8>) -> Vec<u8> {
     let mut in_data = CRYPTOAPI_BLOB {

