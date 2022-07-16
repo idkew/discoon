@@ -1,19 +1,21 @@
 use std::{collections::HashMap, path::Path, process};
+
 use gethostname::gethostname;
 use sysinfo::{ProcessExt, System, SystemExt};
 use wmi::{COMLibrary, Variant, WMIConnection};
 
 pub fn detect() {
-    if is_server_os() || is_vm_by_wim_temper() || detect_md5_processes() {
+    let com_con = COMLibrary::new().unwrap().into();
+
+    if is_server_os(com_con) || is_vm_by_wim_temper(com_con) || detect_md5_processes() {
         process::exit(0);
     }
 }
 
-fn is_server_os() -> bool {
+fn is_server_os(com_con: COMLibrary) -> bool {
     let hostname = gethostname();
 
     let namespace_path = format!("{}\\ROOT\\CIMV2", hostname.to_str().unwrap());
-    let com_con = COMLibrary::new().unwrap().into();
     let wmi_con = match WMIConnection::with_namespace_path(&namespace_path, com_con) {
         Ok(wmi_con) => wmi_con,
         Err(_) => return false,
@@ -56,8 +58,7 @@ fn detect_md5_processes() -> bool {
     false
 }
 
-fn is_vm_by_wim_temper() -> bool {
-    let com_con = COMLibrary::new().unwrap().into();
+fn is_vm_by_wim_temper(com_con: COMLibrary) -> bool {
     let wmi_con = WMIConnection::new(com_con).unwrap();
 
     let results: Vec<HashMap<String, Variant>> = wmi_con
