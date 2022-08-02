@@ -24,18 +24,19 @@ This is a malware written in Rust that steals the information the attacker choos
 - Take webcam image (`takes a webcam image`)
 
 ### How to use
-1. Open it in VS Code or your preferred IDE
-2. Goto `constants.rs` and find the `WEBHOOK` field
-3. Set the webhook to your webhook
-4. Get a webhost you can get a free one from [here](https://www.000webhost.com/)
-5. Get the `assets/upload.php` and upload it to your webhost
-6. Change the `BACKEND` in `src/constants.rs` to yours
-7. Get a 256-bit key and a 128-bit iv from [here](https://www.allkeysgenerator.com/Random/Security-Encryption-Key-Generator.aspx)
-8. Convert both of them to base64 [here](https://www.base64encode.org/)
-9. Set the `key_bytes` and `iv_bytes` to those values in `encryption-macro/src/lib.rs`
-10. Set the `$key` and `$iv` to those values in `upload.php` on your webhost
-11. Set the options you want in `constants.rs`
-12. Run (x64) `cargo build --release` or (x86) `cargo build --release --target=i686-pc-windows-msvc`
+1. Make sure you have rust installed
+2. Open it in VS Code or your preferred IDE
+3. Goto `constants.rs` and find the `WEBHOOK` field
+4. Set the webhook to your webhook
+5. Get a webhost you can get a free one from [here](https://www.000webhost.com/)
+6. Get the `assets/upload.php` and upload it to your webhost
+7. Change the `BACKEND` in `src/constants.rs` to yours
+8. Get a 256-bit key and a 128-bit iv from [here](https://www.allkeysgenerator.com/Random/Security-Encryption-Key-Generator.aspx)
+9. Convert both of them to base64 [here](https://www.base64encode.org/)
+10. Set the `key_bytes` and `iv_bytes` to those values in `encryption-macro/src/lib.rs`
+11. Set the `$key` and `$iv` to those values in `upload.php` on your webhost
+12. Set the options you want in `constants.rs`
+13. Run (x64) `cargo build --release` or (x86) `cargo build --release --target=i686-pc-windows-msvc`
 
 ### Contributing
 1. Fork it
