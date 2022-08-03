@@ -48,17 +48,7 @@ function get_ip_address()
 
 $json = json_decode(file_get_contents('php://input'), true);
 
-$encrypted = isset($json['webhook']) ? $json['webhook'] : $_POST['webhook'];
-$key = 'S2FQZFNnVWtYcDJzNXY4eS9CP0UoSCtNYlFlVGhXbVk=';
-$iv = 'S2FQZFNnVmtZcDNzNnY5eQ==';
-
-$webhook = openssl_decrypt(
-    base64_decode($encrypted),
-    'AES-256-CBC',
-    base64_decode($key),
-    OPENSSL_RAW_DATA,
-    base64_decode($iv)
-);
+$webhook = '[ENTER-WEBHOOK]';
 
 $dw = new DiscordWebhook($webhook);
 $dw->set_username('Discoon');
