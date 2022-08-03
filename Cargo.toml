@@ -28,4 +28,3 @@ image = { version = "0.24.2", default-features = false }
 wmi = "0.11.0"
 rs-leveldb = "0.1.5"
 gethostname = "0.2.3"
-encrypt-macro = { path = "encrypt-macro" }
