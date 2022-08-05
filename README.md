@@ -1,5 +1,5 @@
 # Discoon
-Stealer with webhook protection
+Stealer with webhook protection.
 
 ### Educational purposes only
 Only use this on your own machine and do not use it maliciously. 
