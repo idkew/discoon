@@ -347,6 +347,7 @@ dependencies = [
  "gethostname",
  "image 0.24.3",
  "nokhwa",
+ "obfstr",
  "reqwest",
  "rs-leveldb",
  "rusqlite",
@@ -356,6 +357,7 @@ dependencies = [
  "uuid",
  "walkdir",
  "winapi",
+ "winreg",
  "wmi",
 ]
 
@@ -1095,6 +1097,12 @@ dependencies = [
  "hermit-abi",
  "libc",
 ]
+
+[[package]]
+name = "obfstr"
+version = "0.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "43a32982fced7de6834f4583fde19da2db188afbb4ba57bea6f024f7bf40c542"
 
 [[package]]
 name = "once_cell"

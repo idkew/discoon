@@ -5,12 +5,12 @@ use serde_json::Value;
 use std::fs;
 use std::path::PathBuf;
 use winapi::um::dpapi::CryptUnprotectData;
-use winapi::um::wincrypt::CRYPTOAPI_BLOB;
+use winapi::um::wincrypt::CRYPTOAPI_BLOB; // Or `Aes128Gcm`
 
-pub fn dpapi_decrypt(mut cipher_text: Vec<u8>) -> Vec<u8> {
+pub fn dpapi_decrypt(mut ciphertext: Vec<u8>) -> Vec<u8> {
     let mut in_data = CRYPTOAPI_BLOB {
-        cbData: cipher_text.len() as u32,
-        pbData: cipher_text.as_mut_ptr(),
+        cbData: ciphertext.len() as u32,
+        pbData: ciphertext.as_mut_ptr(),
     };
 
     let mut out_data = CRYPTOAPI_BLOB {
@@ -29,28 +29,28 @@ pub fn dpapi_decrypt(mut cipher_text: Vec<u8>) -> Vec<u8> {
             &mut out_data,
         );
 
-        let plain_text = Vec::from_raw_parts(
+        let plaintext = Vec::from_raw_parts(
             out_data.pbData,
             out_data.cbData as usize,
             out_data.cbData as usize,
         );
 
-        return plain_text;
+        return plaintext;
     };
 }
 
-pub fn aes_decrypt(cipher_text: Vec<u8>, master_key: &Vec<u8>) -> Vec<u8> {
+pub fn aes_decrypt(ciphertext: Vec<u8>, master_key: &Vec<u8>) -> Vec<u8> {
     let key = GenericArray::from_slice(&master_key);
     let cipher = Aes256Gcm::new(key);
 
-    let nonce = GenericArray::from_slice(&cipher_text[3..15]);
+    let nonce = GenericArray::from_slice(&ciphertext[3..15]);
 
-    let plain_text = match cipher.decrypt(nonce, &cipher_text[15..]) {
-        Ok(plain_text) => plain_text,
-        Err(_) => dpapi_decrypt(cipher_text),
+    let plaintext = match cipher.decrypt(nonce, &ciphertext[15..]) {
+        Ok(plaintext) => plaintext,
+        Err(_) => dpapi_decrypt(ciphertext),
     };
 
-    return plain_text;
+    return plaintext;
 }
 
 pub fn get_master_key(master_key_path: &PathBuf) -> Option<Vec<u8>> {
@@ -59,8 +59,8 @@ pub fn get_master_key(master_key_path: &PathBuf) -> Option<Vec<u8>> {
     let json: Value = serde_json::from_str(contents.as_str()).ok()?;
 
     if let Some(encrypted_key) = json["os_crypt"]["encrypted_key"].as_str() {
-        let plain_text = base64::decode(encrypted_key).ok()?[5..].to_vec();
-        let master_key = dpapi_decrypt(plain_text);
+        let plaintext = base64::decode(encrypted_key).ok()?[5..].to_vec();
+        let master_key = dpapi_decrypt(plaintext);
         return Some(master_key);
     }
     return None;

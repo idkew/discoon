@@ -28,3 +28,5 @@ image = { version = "0.24.3", default-features = false }
 wmi = "0.11.0"
 rs-leveldb = "0.1.5"
 gethostname = "0.2.3"
+winreg = "0.10.1"
+obfstr = "0.4.1"

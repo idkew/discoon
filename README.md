@@ -13,7 +13,11 @@ This is a malware written in Rust that steals the information the attacker choos
 ### Features
 - Grab IP Address (`backend grabs the IP address`)
 - Anti analysis (`detects some malware analysis environments`)
-- Webhook protection (`sends to webhook through a backend making your webhook protected`)
+- Webhook protection (`webhook is only stored on the backend making it protected`)
+- Auto spread (`automatically spreads the stealer through victim's discord`)
+- Site blocker (`prevents the victim from visiting the specified sites`)
+- Melt (`self deletes after execution`)
+- Copy to temp (`copies the stealer to %TEMP% and places to startup`)
 - Trace token (`sends new user token when they change user data also steals credit cards and login information`)
 - Steal discord tokens (`steal and decrypt discord tokens`)
 - Steal browser passwords (`steals browser passwords`)
