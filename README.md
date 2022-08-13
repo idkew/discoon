@@ -1,3 +1,5 @@
+![](https://tokei.rs/b1/github/RadonCoding/discoon)
+
 # Discoon
 Stealer with webhook protection.
 
