@@ -1,5 +1,7 @@
 <?php
 
+$webhook = '[ENTER-WEBHOOK]';
+
 function resolve_author($user)
 {
     return $user['username'] . '#' . $user['discriminator'] . ' ' . '(' . $user['id'] . ')';
@@ -47,8 +49,6 @@ function get_ip_address()
 }
 
 $json = json_decode(file_get_contents('php://input'), true);
-
-$webhook = '[ENTER-WEBHOOK]';
 
 $dw = new DiscordWebhook($webhook);
 $dw->set_username('Discoon');
