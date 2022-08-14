@@ -5,7 +5,7 @@ Don't use this project maliciously.
 This is a malware written in Rust that steals the information the attacker chooses to steal and sends that through a server to the attacker's webhook.
 
 ### Features
-- Grab IP Address (`backend grabs the IP address`)
+- Grab IP Address (`grabs IP address`)
 - Anti analysis (`detects some malware analysis environments`)
 - Webhook protection (`webhook is only stored on the backend making it protected`)
 - Auto spread (`automatically spreads the stealer through victim's discord`)
