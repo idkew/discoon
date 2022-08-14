@@ -1,9 +1,6 @@
 ### Educational purposes only
 Don't use this project maliciously. 
 
-### License
-This project is licensed under the terms of the MIT license.
-
 ### How it works
 This is a malware written in Rust that steals the information the attacker chooses to steal and sends that through a server to the attacker's webhook.
 
@@ -24,15 +21,17 @@ This is a malware written in Rust that steals the information the attacker choos
 - Take screenshot (`takes a screenshot`)
 - Take webcam image (`takes a webcam image`)
 
-### How to use
-1. Make sure you have rust installed
-2. Open it in VS Code or your preferred IDE
-3. Goto `assets/upload.php` and set the `$webhook` to yours
-4. Get a webhost you can get a free one from [here](https://www.000webhost.com/)
-5. Get the `assets/upload.php` and upload it to your webhost
-6. Change the `BACKEND` in `src/constants.rs` to yours
-7. Set the options you want in `constants.rs`
-8. Run (x64) `cargo build --release` or (x86) `cargo build --release --target=i686-pc-windows-msvc`
+### Prerequisites
+1. Install [rust](https://www.rust-lang.org/tools/install)
+2. Run `rustup target add x86_64-pc-windows-msvc`
+
+### Setup
+1. Go to [upload.php](https://github.com/RadonCoding/discoon/blob/main/assets/upload.php#L3) and set the webhook
+2. Get a webhost you can get a free one from [here](https://www.000webhost.com/)
+3. Upload the [upload.php](https://github.com/RadonCoding/discoon/blob/main/assets/upload.php) to your webhost
+4. Change the `BACKEND` in [constants.rs](https://github.com/RadonCoding/discoon/blob/main/src/constants.rs#L47) to your webhost
+5. Configure the options however you like
+6. Run `cargo build --release --target=x86_64-pc-windows-msvc`
 
 ### Contributing
 1. Fork it
