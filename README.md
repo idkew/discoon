@@ -1,6 +1,3 @@
-# Discoon
-Stealer with webhook protection.
-
 ### Educational purposes only
 Don't use this project maliciously. 
 
