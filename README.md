@@ -22,8 +22,8 @@ This is a malware written in Rust that steals the information the attacker choos
 - Take webcam image (`takes a webcam image`)
 
 ### Prerequisites
-1. Install [rust-lang](https://www.rust-lang.org/tools/install)
-2. Run `rustup target add x86_64-pc-windows-msvc`
+1. Install [Rust](https://www.rust-lang.org/tools/install)
+2. Install windows [tooclahin](https://rust-lang.github.io/rustup/installation/windows.html)
 
 ### Setup
 1. Go to [upload.php](https://github.com/RadonCoding/discoon/blob/main/assets/upload.php#L3) and set the webhook
