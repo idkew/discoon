@@ -22,7 +22,7 @@ This is a malware written in Rust that steals the information the attacker choos
 - Take webcam image (`takes a webcam image`)
 
 ### Prerequisites
-1. Install [rust](https://www.rust-lang.org/tools/install)
+1. Install [rust-lang](https://www.rust-lang.org/tools/install)
 2. Run `rustup target add x86_64-pc-windows-msvc`
 
 ### Setup
