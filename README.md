@@ -30,7 +30,7 @@ This is a malware written in Rust that steals the information the attacker choos
 2. Get a webhost you can get a free one from [here](https://www.000webhost.com/)
 3. Upload the [upload.php](https://github.com/RadonCoding/discoon/blob/main/res/upload.php) to your webhost
 4. Change the `BACKEND` in [constants.rs](https://github.com/RadonCoding/discoon/blob/main/src/constants.rs#L47) to your webhost
-5. Configure the options in [constants.rs](https://github.com/RadonCoding/discoon/blob/main/src/constants.rs) however you like
+5. Configure the other options in [constants.rs](https://github.com/RadonCoding/discoon/blob/main/src/constants.rs) however you like
 6. Run `cargo build --release --target=x86_64-pc-windows-msvc`
 
 ### Contributing
