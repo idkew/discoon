@@ -7,7 +7,7 @@ Don't use this project maliciously.
 ### How it works
 This is a malware written in Rust that steals the information the attacker chooses to steal and sends that through a server to the attacker's webhook.
 
-## What makes this different than other grabbers
+### Info
 This is a lot faster than other grabbers due to not using regex to find tokens and due to rust being a faster language overall. This grabber also keeps your webhook secure from any reverse engineers preventing it from being deleted.
 
 ### Features
