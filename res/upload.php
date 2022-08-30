@@ -1,6 +1,6 @@
 <?php
 
-$webhook = '[ENTER-WEBHOOK]';
+$webhook = 'ENTER-WEBHOOK';
 
 function resolve_author($user)
 {
