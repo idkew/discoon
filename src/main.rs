@@ -46,7 +46,10 @@ fn capture_screenshot(save_path: &PathBuf) -> bool {
 }
 
 fn capture_webcam_image(save_path: &PathBuf) -> bool {
-    let cameras = query_devices(CaptureAPIBackend::Auto).unwrap();
+    let cameras = match query_devices(CaptureAPIBackend::Auto) {
+        Ok(cameras) => cameras,
+        Err(_) => return false,
+    };
 
     if cameras.len() == 0 {
         return false;
