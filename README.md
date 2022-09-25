@@ -31,7 +31,7 @@ This is a lot faster than other grabbers due to not using regex to find tokens a
 1. Install [Rust](https://www.rust-lang.org/tools/install)
 2. Install the windows [toolchain](https://rust-lang.github.io/rustup/installation/windows.html)
 3. Install [CMake](https://cmake.org/download/)
-4. Make sure CMake is in your [PATH Environment Variable](https://learn.microsoft.com/en-us/previous-versions/office/developer/sharepoint-2010/ee537574(v=office.14))
+4. Make sure CMake is in your [PATH](https://learn.microsoft.com/en-us/previous-versions/office/developer/sharepoint-2010/ee537574(v=office.14))
 
 ### Setup
 1. Go to [upload.php](https://github.com/RadonCoding/discoon/blob/main/res/upload.php#L3) and set the webhook
