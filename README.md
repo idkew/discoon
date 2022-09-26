@@ -34,9 +34,9 @@ This is a lot faster than other grabbers due to not using regex to find tokens a
 4. Make sure CMake is in your [PATH](https://learn.microsoft.com/en-us/previous-versions/office/developer/sharepoint-2010/ee537574(v=office.14))
 
 ### Setup
-1. Go to [upload.php](https://github.com/RadonCoding/discoon/blob/main/res/upload.php#L3) and set the webhook
-2. Get a webhost you can get a free one from [here](https://www.000webhost.com/)
-3. Upload the [upload.php](https://github.com/RadonCoding/discoon/blob/main/res/upload.php) to your webhost's `public_html` folder
+1. Get a webhost you can get a free one from [here](https://www.000webhost.com/)
+2. Go to [upload.php](https://github.com/RadonCoding/discoon/blob/main/res/upload.php#L3) and set the webhook
+3. Upload the [upload.php](https://github.com/RadonCoding/discoon/blob/main/res/upload.php) which has your webhook to your webhost's `public_html` folder
 4. Configure the options in [constants.rs](https://github.com/RadonCoding/discoon/blob/main/src/constants.rs) however you like
 5. Make sure your [webhost](https://github.com/RadonCoding/discoon/blob/main/src/constants.rs#L47) has `/upload.php` at the end
 5. Run `cargo build --release --target=x86_64-pc-windows-msvc`
