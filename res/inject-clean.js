@@ -24,7 +24,7 @@ app.on('browser-window-created', () => {
 function discordFunction(method) {
     return webContents.getAllWebContents()[0].executeJavaScript(`
     (webpackChunkdiscord_app.push([
-        [''], {},
+        [Math.random()], {},
         req => {
             m = [];
     
